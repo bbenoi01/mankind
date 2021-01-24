@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import {
@@ -16,6 +16,11 @@ import {
 
 export default class DetailScreen extends Component {
 
+    handleResetQty = () => {
+        const { dispatch } = this.props;
+        dispatch(updateQty(1));
+    }
+
     handleUpdateQtyPlus = () => {
         const { dispatch, qty } = this.props;
         let newQty = qty + 1;
@@ -32,6 +37,7 @@ export default class DetailScreen extends Component {
         const { dispatch, navigation, qty, cartQty } = this.props;
         const content = navigation.getParam('item');
         const itemToAdd = {
+            id: content.productList[0].productId,
             brand: content.brand,
             name: content.productList[0].productName,
             weight: content.productList[0].weight,
@@ -50,7 +56,12 @@ export default class DetailScreen extends Component {
         // console.log("What's in the cart", cart);
 
         return (
-            <>
+            <Fragment>
+                {qty > 1 ? (
+                    <NavigationEvents
+                        onWillFocus={this.handleResetQty}
+                    />
+                ) : null}
                 {content ? (
                     <View style={styles.container}>
                         <View style={styles.productImageContainer}>
@@ -153,7 +164,7 @@ export default class DetailScreen extends Component {
                         </View>
                     </View>
                 ): null}
-            </>
+            </Fragment>
         );
     }
 }

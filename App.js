@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import rootStore from './src/rootStore';
 
 import Cart from './src/components/ShoppingCart';
+import Menu from './src/components/Menu';
 import FlowerScreen from './src/screens/FlowerScreen';
 import CartridgeScreen from './src/screens/CartridgeScreen';
 import EdibleScreen from './src/screens/EdibleScreen';
@@ -43,14 +44,7 @@ const homeFlow = createStackNavigator({
       style: { backgroundColor: 'inherit' },
       showIcon: true,
       scrollEnabled: true
-    },
-    // style: {
-    //   display: 'flex',
-    //   flexDirection: 'column'
-    // },
-    // sceneContainerStyle: {
-    //   flex: 1
-    // }
+    }
   }),
   Detail: DetailScreen
 },
@@ -63,6 +57,7 @@ const homeFlow = createStackNavigator({
     headerTitle: 'ManKind Cannibis',
     headerTitleAlign: 'center',
     headerTintColor: '#f5f5f5',
+    // headerLeft: props => <Menu {...props}/>,
     headerRight: props => <Cart {...props}/>
   }
 })

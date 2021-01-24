@@ -120,6 +120,14 @@ export default (state = INITIAL_STATE, action) => {
             }
         }
 
+        case (types.CLEAR_CART): {
+            return {
+                ...state,
+                cart: [],
+                cartQty: null
+            }
+        }
+
         case (types.SET_ERRORS): {
             return {
                 ...state,

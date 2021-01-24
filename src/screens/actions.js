@@ -96,3 +96,11 @@ export function addItemToCart(itemToAdd) {
         })
     }
 }
+
+export function clearCart() {
+    return (dispatch) => {
+        dispatch({
+            type: types.CLEAR_CART
+        })
+    }
+}

@@ -3,7 +3,8 @@ import ShoppingCart from './ShoppingCart';
 
 function mapStoreToProps(store) {
     return {
-        cartQty: store.app.cartQty
+        cartQty: store.app.cartQty,
+        cart: store.app.cart
     }
 }
 
