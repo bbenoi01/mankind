@@ -13,7 +13,8 @@ const INITIAL_STATE = {
     pill: [],
     tincture: [],
     qtyToAdd: 1,
-    cart: null,
+    cartQty: null,
+    cart: [],
     errors: {}
 };
 
@@ -105,10 +106,17 @@ export default (state = INITIAL_STATE, action) => {
             }
         }
 
+        case (types.UPDATE_CART_QTY): {
+            return {
+                ...state,
+                cartQty: payload
+            }
+        }
+
         case (types.UPDATE_CART): {
             return {
                 ...state,
-                cart: payload
+                cart: [...state.cart, payload]
             }
         }
 

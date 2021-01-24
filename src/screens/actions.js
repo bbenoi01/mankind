@@ -79,11 +79,20 @@ export function updateQty(newQty) {
     }
 }
 
-export function updateCart(currentQty) {
+export function updateCartQty(currentQty) {
+    return (dispatch) => {
+        dispatch({
+            type: types.UPDATE_CART_QTY,
+            payload: currentQty
+        })
+    }
+}
+
+export function addItemToCart(itemToAdd) {
     return (dispatch) => {
         dispatch({
             type: types.UPDATE_CART,
-            payload: currentQty
+            payload: itemToAdd
         })
     }
 }

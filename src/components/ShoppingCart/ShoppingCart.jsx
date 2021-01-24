@@ -8,8 +8,8 @@ import {
 export default class ShoppingCart extends Component {
 
     render() {
-        const { cart } = this.props;
-        const BadgedIcon = withBadge(cart)(Icon);
+        const { cartQty } = this.props;
+        const BadgedIcon = withBadge(cartQty)(Icon);
 
         return (
             <View style={styles.container}>

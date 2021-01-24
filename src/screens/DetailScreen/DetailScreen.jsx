@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavigationEvents } from 'react-navigation';
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import {
     Text,
@@ -9,7 +10,8 @@ import {
 } from 'react-native-elements';
 import {
     updateQty,
-    updateCart
+    updateCartQty,
+    addItemToCart
 } from '../actions';
 
 export default class DetailScreen extends Component {
@@ -27,14 +29,25 @@ export default class DetailScreen extends Component {
     }
 
     handleAddToCart = () => {
-        const { dispatch, qty, cart } = this.props;
-        let currentQty = cart + qty;
-        dispatch(updateCart(currentQty));
+        const { dispatch, navigation, qty, cartQty } = this.props;
+        const content = navigation.getParam('item');
+        const itemToAdd = {
+            brand: content.brand,
+            name: content.productList[0].productName,
+            weight: content.productList[0].weight,
+            price: content.productList[0].displayPriceSell,
+            taxRate: content.productList[0].taxRate,
+            qty
+        };
+        let currentQty = cartQty + qty;
+        dispatch(addItemToCart(itemToAdd))
+        dispatch(updateCartQty(currentQty));
     }
 
     render() {
-        const { navigation, qty } = this.props;
+        const { navigation, qty, cart } = this.props;
         let content = navigation.getParam('item');
+        // console.log("What's in the cart", cart);
 
         return (
             <>
