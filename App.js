@@ -5,6 +5,7 @@ import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-n
 import { Provider } from 'react-redux';
 import rootStore from './src/rootStore';
 
+import Cart from './src/components/ShoppingCart';
 import FlowerScreen from './src/screens/FlowerScreen';
 import CartridgeScreen from './src/screens/CartridgeScreen';
 import EdibleScreen from './src/screens/EdibleScreen';
@@ -18,8 +19,6 @@ import PillScreen from './src/screens/PillScreen';
 import TinctureScreen from './src/screens/TinctureScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import AccountScreen from './src/screens/AccountScreen';
-
-import Cart from './src/components/ShoppingCart';
 
 const homeFlow = createStackNavigator({
   topFlow: createMaterialTopTabNavigator({
