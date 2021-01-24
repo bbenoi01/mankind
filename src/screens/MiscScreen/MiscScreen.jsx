@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import ProductList from '../../components/ProductList';
+
 import {
-    Card,
-    Divider,
-    Text
-} from 'react-native-elements';
+    getCategoryContent
+} from '../actions';
 
 export default class MiscScreen extends Component {
+    
+    handleGetMisc = () => {
+        const { dispatch } = this.props;
+        dispatch(getCategoryContent('misc'));
+    }
+
     render() {
+        const { navigation, misc } = this.props;
+
         return (
             <View style={styles.container}>
-                <Text h2>
-                    Misc Screen
-                </Text>
+                {misc.length === 0 ? (
+                    <NavigationEvents
+                        onWillFocus={this.handleGetMisc}
+                    />
+                ) : null}
+                <ProductList
+                    category={misc}
+                    navigation={navigation}
+                />
             </View>
         );
     }

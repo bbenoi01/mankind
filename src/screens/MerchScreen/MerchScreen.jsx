@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import ProductList from '../../components/ProductList';
+
 import {
-    Card,
-    Divider,
-    Text
-} from 'react-native-elements';
+    getCategoryContent
+} from '../actions';
 
 export default class MerchScreen extends Component {
+    
+    handleGetMerch = () => {
+        const { dispatch } = this.props;
+        dispatch(getCategoryContent('merch'));
+    }
+
     render() {
+        const { navigation, merch } = this.props;
+
         return (
             <View style={styles.container}>
-                <Text h2>
-                    Merch Screen
-                </Text>
+                {merch.length === 0 ? (
+                    <NavigationEvents
+                        onWillFocus={this.handleGetMerch}
+                    />
+                ) : null}
+                <ProductList
+                    category={merch}
+                    navigation={navigation}
+                />
             </View>
         );
     }

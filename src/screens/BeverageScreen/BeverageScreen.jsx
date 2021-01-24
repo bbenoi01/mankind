@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import ProductList from '../../components/ProductList';
+
 import {
-    Card,
-    Divider,
-    Text
-} from 'react-native-elements';
+    getCategoryContent
+} from '../actions';
 
 export default class BeverageScreen extends Component {
+    
+    handleGetBeverage = () => {
+        const { dispatch } = this.props;
+        dispatch(getCategoryContent('beverage'));
+    }
+
     render() {
+        const { navigation, beverage } = this.props;
+
         return (
             <View style={styles.container}>
-                <Text h2>
-                    Beverage Screen
-                </Text>
+                {beverage.length === 0 ? (
+                    <NavigationEvents
+                        onWillFocus={this.handleGetBeverage}
+                    />
+                ) : null}
+                <ProductList
+                    category={beverage}
+                    navigation={navigation}
+                />
             </View>
         );
     }

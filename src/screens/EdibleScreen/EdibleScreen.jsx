@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import ProductList from '../../components/ProductList';
+
 import {
-    Card,
-    Divider,
-    Text
-} from 'react-native-elements';
+    getCategoryContent
+} from '../actions';
 
 export default class EdibleScreen extends Component {
+
+    handleGetEdible = () => {
+        const { dispatch } = this.props;
+        dispatch(getCategoryContent('edible'));
+    }
+
     render() {
+        const { navigation, edible } = this.props;
+
         return (
             <View style={styles.container}>
-                <Text h2>
-                    Edible Screen
-                </Text>
+                {edible.length === 0 ? (
+                    <NavigationEvents
+                        onWillFocus={this.handleGetEdible}
+                    />
+                ) : null}
+                <ProductList
+                    category={edible}
+                    navigation={navigation}
+                />
             </View>
         );
     }

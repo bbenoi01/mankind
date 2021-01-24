@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import ProductList from '../../components/ProductList';
+
 import {
-    Card,
-    Divider,
-    Text
-} from 'react-native-elements';
+    getCategoryContent
+} from '../actions';
 
 export default class TinctureScreen extends Component {
+    
+    handleGetTincture = () => {
+        const { dispatch } = this.props;
+        dispatch(getCategoryContent('tincture'));
+    }
+
     render() {
+        const { navigation, tincture } = this.props;
+
         return (
             <View style={styles.container}>
-                <Text h2>
-                    Tincture Screen
-                </Text>
+                {tincture.length === 0 ? (
+                    <NavigationEvents
+                        onWillFocus={this.handleGetTincture}
+                    />
+                ) : null}
+                <ProductList
+                    category={tincture}
+                    navigation={navigation}
+                />
             </View>
         );
     }

@@ -9,7 +9,7 @@ import FlowerScreen from './src/screens/FlowerScreen';
 import CartridgeScreen from './src/screens/CartridgeScreen';
 import EdibleScreen from './src/screens/EdibleScreen';
 import ExtractScreen from './src/screens/ExtractScreen';
-import MiscScreen from './src/screens/MiscScreen';
+// import MiscScreen from './src/screens/MiscScreen';
 import PrerollScreen from './src/screens/PrerollScreen';
 import TopicalScreen from './src/screens/TopicalScreen';
 import MerchScreen from './src/screens/MerchScreen';
@@ -19,13 +19,15 @@ import TinctureScreen from './src/screens/TinctureScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import AccountScreen from './src/screens/AccountScreen';
 
+import Cart from './src/components/ShoppingCart';
+
 const homeFlow = createStackNavigator({
   topFlow: createMaterialTopTabNavigator({
     Flower: FlowerScreen,
     Cartridge: CartridgeScreen,
     Edible: EdibleScreen,
     Extract: ExtractScreen,
-    Misc: MiscScreen,
+    // Misc: MiscScreen,
     Preroll: PrerollScreen,
     Topical: TopicalScreen,
     Merch: MerchScreen,
@@ -61,7 +63,8 @@ const homeFlow = createStackNavigator({
     },
     headerTitle: 'ManKind Cannibis',
     headerTitleAlign: 'center',
-    headerTintColor: '#f5f5f5'
+    headerTintColor: '#f5f5f5',
+    headerRight: props => <Cart {...props}/>
   }
 })
 
