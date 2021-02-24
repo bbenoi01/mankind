@@ -20,20 +20,22 @@ import PillScreen from './src/screens/PillScreen';
 import TinctureScreen from './src/screens/TinctureScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import AccountScreen from './src/screens/AccountScreen';
+import OrdersScreen from './src/screens/OrdersScreen';
+import OrderDetailScreen from './src/screens/OrderDetailScreen';
 
 const homeFlow = createStackNavigator({
   topFlow: createMaterialTopTabNavigator({
     Flower: FlowerScreen,
-    Cartridge: CartridgeScreen,
-    Edible: EdibleScreen,
-    Extract: ExtractScreen,
-    // Misc: MiscScreen,
-    Preroll: PrerollScreen,
-    Topical: TopicalScreen,
-    Merch: MerchScreen,
-    Beverage: BeverageScreen,
-    Pill: PillScreen,
-    Tincture: TinctureScreen
+    // Cartridge: CartridgeScreen,
+    // Edible: EdibleScreen,
+    // Extract: ExtractScreen,
+    // // Misc: MiscScreen,
+    // Preroll: PrerollScreen,
+    // Topical: TopicalScreen,
+    // Merch: MerchScreen,
+    // Beverage: BeverageScreen,
+    // Pill: PillScreen,
+    // Tincture: TinctureScreen
   },
   {
     initialRouteName: 'Flower',
@@ -50,7 +52,6 @@ const homeFlow = createStackNavigator({
 },
 {
   defaultNavigationOptions: {
-    headerShown: true,
     headerStyle: {
       backgroundColor: 'green'
     },
@@ -68,8 +69,23 @@ homeFlow.navigationOptions = () => {
   }
 }
 
+// const orderFlow = createMaterialTopTabNavigator({
+//   Orders: OrdersScreen,
+//   OrderDetails: OrderDetailScreen
+// },
+// {
+//   initialRouteName: 'Orders',
+//   tabBarOptions: {
+//     style: { display: 'none' },
+//     scrollEnabled: false
+//   }
+// })
+
 const accountFlow = createStackNavigator({
-  Account: AccountScreen
+  Account: AccountScreen,
+  // orderFlow,
+  Orders: OrdersScreen,
+  OrderDetails: OrderDetailScreen
 },
 {
   defaultNavigationOptions: {

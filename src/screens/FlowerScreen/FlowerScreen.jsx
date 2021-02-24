@@ -9,21 +9,22 @@ import {
 
 export default class FlowerScreen extends Component {
     
-    handleGetFlower = () => {
-        const { dispatch } = this.props;
-        dispatch(getCategoryContent('flower'));
-    }
+    // handleGetFlower = () => {
+    //     const { dispatch } = this.props;
+    //     dispatch(getCategoryContent('flower'));
+    // }
 
     render() {
         const { navigation, flower } = this.props;
-
+        // console.log('FLOWER', flower);
+        
         return (
             <View style={styles.container}>
-                {flower.length === 0 ? (
+                {/* {flower.length === 0 ? (
                     <NavigationEvents
                         onWillFocus={this.handleGetFlower}
                     />
-                ) : null}
+                ) : null} */}
                 <ProductList
                     category={flower}
                     navigation={navigation}

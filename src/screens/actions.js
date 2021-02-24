@@ -1,5 +1,18 @@
-import mankindApi from '../api/mankindApi';
+import mankindAuthApi from '../api/mankindAuthApi';
+import mankindProductApi from '../api/mankindProductApi';
+import dayjs from 'dayjs';
 import { types } from '../types';
+
+export function formatDate(selectedDate, output) {
+    const formattedDate = selectedDate.split("T");
+    output = dayjs(formattedDate[0]).format('MM/DD/YYYY');
+    return output;
+};
+
+export function capitalize(string) {
+    const str = string.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
 export function getCategoryContent(category) {
     let catTypes;
@@ -53,7 +66,7 @@ export function getCategoryContent(category) {
     }
     
     return (dispatch) => {
-        mankindApi.get(`/${category}/page/0/pagesize/500/list?customerType=ADULT`)
+        mankindProductApi.get(`/${category}/page/0/pagesize/500/list?customerType=ADULT`)
             .then(res => {
                 dispatch({
                     type: catTypes,
@@ -104,3 +117,60 @@ export function clearCart() {
         })
     }
 }
+
+export function userSignUp(newUserData) {
+    return (dispatch) => {
+        mankindAuthApi.post('/signup', newUserData)
+            .then(res => {
+                if(res.status === 200) {
+                    console.log('signup res', res)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch({
+                    type: types.SET_ERRORS,
+                    payload: err
+                })
+            })
+    }
+}
+
+export function userSignIn(userData) {
+    return (dispatch) => {
+        mankindAuthApi.post('/signin', userData)
+            .then(res => {
+                if(res.status === 200) {
+                    dispatch({
+                        type: types.SET_AUTHENTICATED,
+                        payload: res.data
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch({
+                    type: types.SET_ERRORS,
+                    payload: err
+                })
+            })
+    }
+}
+
+export function userLogOut() {
+    return (dispatch) => {
+        dispatch({
+            type: types.SET_UNAUTHENTICATED
+        })
+    }
+}
+
+
+
+// addresses: []
+// birthday: "1976-02-20T00:00:00.000Z"
+// customerType: "ADULT"
+// email: "james.sawyer.ford5@gmail.com"
+// firstName: "James"
+// lastName: "Ford"
+// phone: "6198526647"

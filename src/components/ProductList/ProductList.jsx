@@ -37,7 +37,7 @@ export default class ProductList extends Component {
                                     {item.menuTitle ? (
                                         <ListItem.Title style={styles.titleText}>{item.menuTitle}</ListItem.Title>
                                     ) : (
-                                        <ListItem.Title style={styles.titleText}>{item.productList[0].productName}</ListItem.Title>
+                                        <ListItem.Title style={styles.titleText}>{item.productList/*[0]*/.productName}</ListItem.Title>
                                     )}
                                     <ListItem.Subtitle style={styles.subtitleText}>THC {item.thc}</ListItem.Subtitle>
                                     <View style={styles.priceContainer}>
