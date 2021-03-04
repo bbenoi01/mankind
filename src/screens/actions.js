@@ -1,6 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import dayjs from 'dayjs';
 import mankindAuthApi from '../api/mankindAuthApi';
 import mankindProductApi from '../api/mankindProductApi';
-import dayjs from 'dayjs';
+import { navigate } from '../util/navigationRef';
 import { types } from '../types';
 
 export function formatDate(selectedDate, output) {
@@ -81,7 +83,7 @@ export function getCategoryContent(category) {
                 })
             })
     }
-}
+};
 
 export function updateQty(newQty) {
     return (dispatch) => {
@@ -90,7 +92,7 @@ export function updateQty(newQty) {
             payload: newQty
         })
     }
-}
+};
 
 export function updateCartQty(currentQty) {
     return (dispatch) => {
@@ -99,7 +101,7 @@ export function updateCartQty(currentQty) {
             payload: currentQty
         })
     }
-}
+};
 
 export function addItemToCart(itemToAdd) {
     return (dispatch) => {
@@ -108,7 +110,7 @@ export function addItemToCart(itemToAdd) {
             payload: itemToAdd
         })
     }
-}
+};
 
 export function clearCart() {
     return (dispatch) => {
@@ -116,7 +118,7 @@ export function clearCart() {
             type: types.CLEAR_CART
         })
     }
-}
+};
 
 export function userSignUp(newUserData) {
     return (dispatch) => {
@@ -134,13 +136,17 @@ export function userSignUp(newUserData) {
                 })
             })
     }
-}
+};
 
 export function userSignIn(userData) {
     return (dispatch) => {
         mankindAuthApi.post('/signin', userData)
-            .then(res => {
+            .then(async res => {
                 if(res.status === 200) {
+                    await AsyncStorage.setItem('token', res.data.tokens.token);
+                    await AsyncStorage.setItem('tokenExp', res.data.tokens.tokenExpiredIn);
+                    await AsyncStorage.setItem('refreshToken', res.data.tokens.refreshToken);
+                    await AsyncStorage.setItem('refreshTokenExp', res.data.tokens.refreshTokenExpiredIn);
                     dispatch({
                         type: types.SET_AUTHENTICATED,
                         payload: res.data
@@ -155,22 +161,54 @@ export function userSignIn(userData) {
                 })
             })
     }
-}
+};
 
 export function userLogOut() {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch({
             type: types.SET_UNAUTHENTICATED
-        })
+        });
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('tokenExp');
+        await AsyncStorage.removeItem('refreshToken');
+        await AsyncStorage.removeItem('refreshTokenExp');
     }
-}
+};
 
+export function getUserOrders() {
+    return (dispatch) => {
+        mankindAuthApi.get('/customer/tickets/page/0')
+            .then(res => {
+                dispatch({
+                    type: types.GET_ORDERS,
+                    payload: res.data.data
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch({
+                    type: types.SET_ERRORS,
+                    payload: err
+                })
+            })
+    }
+};
 
-
-// addresses: []
-// birthday: "1976-02-20T00:00:00.000Z"
-// customerType: "ADULT"
-// email: "james.sawyer.ford5@gmail.com"
-// firstName: "James"
-// lastName: "Ford"
-// phone: "6198526647"
+export function getOrderDetails(orderId) {
+    return (dispatch) => {
+            dispatch({
+                type: types.GET_ORDER_DETAILS,
+                payload: mankindAuthApi.get(`/customer/tickets/${orderId}/details`)
+            })
+            .then(
+                navigate('OrderDetails')
+            )
+            .catch(err => {
+                console.log('Error', err);
+                dispatch({
+                    type: types.SET_ERRORS,
+                    payload: err
+                })
+            })
+    }
+};

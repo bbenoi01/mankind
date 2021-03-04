@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavigationEvents } from 'react-navigation';
 import { View, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import {
     Text,
@@ -6,16 +7,33 @@ import {
     ListItem
 } from 'react-native-elements';
 import {
-    formatDate
+    formatDate,
+    getUserOrders,
+    getOrderDetails
 } from '../actions';
 
 export default class OrdersScreen extends Component {
+
+    handleGetOrders = () => {
+        const { dispatch } = this.props;
+        dispatch(getUserOrders());
+    };
+
     render() {
-        const { navigation, orders } = this.props;
+        const { dispatch, orders } = this.props;
         let orderDate;
+
+        function handleGetOrderDetails(item) {
+            dispatch(getOrderDetails(item.orderId));
+        };
 
         return (
             <View style={styles.container}>
+                {orders.length === 0 ? (
+                    <NavigationEvents
+                        onWillFocus={this.handleGetOrders}
+                    />
+                ) : null}
                 <Text style={styles.accountText}>
                     Orders
                 </Text>
@@ -25,7 +43,7 @@ export default class OrdersScreen extends Component {
                     renderItem={({ item }) => {
                         return (
                             <TouchableOpacity
-                                onPress={() => navigation.navigate('OrderDetails', { item })}
+                                onPress={() => handleGetOrderDetails(item)}
                             >
                                 <ListItem bottomDivider>
                                     <ListItem.Content>

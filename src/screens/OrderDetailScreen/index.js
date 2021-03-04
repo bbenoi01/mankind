@@ -3,8 +3,9 @@ import OrderDetailScreen from './OrderDetailScreen';
 
 function mapStoreToProps(store) {
     return {
-        orderDeets: store.app.orderDetails
+        details: store.app.orderDetails,
+        loading: store.app.loading
     }
 }
 
-export default connect(mapStoreToProps)(OrderDetailScreen)
+export default connect(mapStoreToProps)(OrderDetailScreen);

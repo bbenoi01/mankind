@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
     Text
@@ -12,13 +12,11 @@ import {
     formatDate,
     capitalize
 } from '../actions';
-import { or } from 'react-native-reanimated';
 
 export default class OrderDetailScreen extends Component {
+
     render() {
-        const { navigation, orderDeets } = this.props;
-        // let content = navigation.getParam('item');
-        // console.log('DAFT', orderDeets);
+        const { loading, details } = this.props;
         let pruchaseDate;
 
         function dropHyphen(string) {
@@ -42,48 +40,54 @@ export default class OrderDetailScreen extends Component {
         const OrderDetailFlow = createAppContainer(DetailFlow);
 
         return (
-            <View style={styles.container}>
-                <Text style={{ paddingVertical: 15, fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>
-                    Order {orderDeets.ticket.orderNumber} Details
-                </Text>
-                {/* <View style={{ flexDirection: 'row'}}>
-                    <Text>Receipt Number:</Text>
-                    <Text>{orderDeets.ticket.orderNumber}</Text>
-                </View> */}
-                <View style={{ flexDirection: 'row'}}>
-                    <Text>Purchase Date: </Text>
-                    <Text>{formatDate(orderDeets.ticket.dateCreated, pruchaseDate)}</Text>
-                </View>
-                <View style={{ flexDirection: 'row'}}>
-                    <Text>Order Status: </Text>
-                    <Text>{capitalize(orderDeets.ticket.status)}</Text>
-                </View>
-                <View style={{ flexDirection: 'row'}}>
-                    <Text>Original Price: </Text>
-                    <Text>${orderDeets.ticketTotals.subTotal}</Text>
-                </View>
-                <View style={{ flexDirection: 'row'}}>
-                    <Text>Tier Discount: </Text>
-                    <Text>${orderDeets.ticketTotals.tierDiscountTotal}</Text>
-                </View>
-                <View style={{ flexDirection: 'row'}}>
-                    <Text>Discount: </Text>
-                    <Text>-${dropHyphen(orderDeets.ticketTotals.discountTotal)}</Text>
-                </View>
-                <View style={{ flexDirection: 'row'}}>
-                    <Text>Subtotal: </Text>
-                    <Text>${orderDeets.ticketTotals.adjustedSubtotal}</Text>
-                </View>
-                <View style={{ flexDirection: 'row'}}>
-                    <Text>Tax: </Text>
-                    <Text>${orderDeets.ticketTotals.taxTotal}</Text>
-                </View>
-                <View style={{ flexDirection: 'row'}}>
-                    <Text>Order Total: </Text>
-                    <Text>${orderDeets.ticketTotals.total}</Text>
-                </View>
-                <OrderDetailFlow/>
-            </View>
+            <Fragment>
+                {loading === false ? (
+                    <View style={styles.container}>
+                        <Text style={{ paddingVertical: 15, fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>
+                            Order {details.ticket.orderNumber} Details
+                        </Text>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Text>Purchase Date: </Text>
+                            <Text>{formatDate(details.ticket.dateCreated, pruchaseDate)}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Text>Order Status: </Text>
+                            <Text>{capitalize(details.ticket.status)}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Text>Original Price: </Text>
+                            <Text>${details.ticketTotals.subTotal}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Text>Tier Discount: </Text>
+                            <Text>${details.ticketTotals.tierDiscountTotal}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Text>Discount: </Text>
+                            <Text>-${dropHyphen(details.ticketTotals.discountTotal)}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Text>Subtotal: </Text>
+                            <Text>${details.ticketTotals.adjustedSubtotal}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Text>Tax: </Text>
+                            <Text>${details.ticketTotals.taxTotal}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Text>Order Total: </Text>
+                            <Text>${details.ticketTotals.total}</Text>
+                        </View>
+                        <OrderDetailFlow/>
+                    </View>
+                    ) : (
+                        <View style={styles.loadingContainer}>
+                            <Text h3 style={styles.loadingText}>
+                                Retreiving Order Details...
+                            </Text>
+                        </View>
+                    )}
+            </Fragment>
         );
     }
 }
@@ -91,5 +95,14 @@ export default class OrderDetailScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    loadingContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent:'center'
+    },
+    loadingText: {
+        alignSelf: 'center',
+
     }
 })

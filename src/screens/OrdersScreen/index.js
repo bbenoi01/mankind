@@ -3,7 +3,7 @@ import OrdersScreen from './OrdersScreen';
 
 function mapStoreToProps(store) {
     return {
-        orders: store.app.orders[0].data
+        orders: store.app.orders
     }
 }
 

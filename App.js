@@ -3,6 +3,7 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation-tabs';
 import { Provider } from 'react-redux';
+import { setNavigator } from './src/util/navigationRef';
 import rootStore from './src/rootStore';
 
 import Cart from './src/components/ShoppingCart';
@@ -123,7 +124,7 @@ const App = createAppContainer(switchNavigator);
 export default () => {
   return (
     <Provider store={ rootStore }>
-      <App/>
+      <App ref={(navigator) => { setNavigator(navigator) }}/>
     </Provider>
   );
 };
